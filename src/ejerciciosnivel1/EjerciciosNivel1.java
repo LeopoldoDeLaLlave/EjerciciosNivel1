@@ -16,35 +16,35 @@ public class EjerciciosNivel1 {
     int[] listaNumeros = {50, 30, 7, 7, 1, 2};
 
     public int[] maximos(int[] lista) {
-        
-        if(lista.length>1){
-        int[] arrayMaximos = {lista[0], lista[1]};
 
-        for (int i = 1; i < lista.length; i++) {
-            if (arrayMaximos[0] < lista[i]) {
-                arrayMaximos[1] = arrayMaximos[0];
-                arrayMaximos[0] = lista[i];
-            } else if (arrayMaximos[1] < lista[i]) {
+        if (lista.length > 1) {
+            int[] arrayMaximos = {lista[0], lista[1]};
 
-                arrayMaximos[1] = lista[i];
+            for (int i = 1; i < lista.length; i++) {
+                if (arrayMaximos[0] < lista[i]) {
+                    arrayMaximos[1] = arrayMaximos[0];
+                    arrayMaximos[0] = lista[i];
+                } else if (arrayMaximos[1] < lista[i]) {
+
+                    arrayMaximos[1] = lista[i];
+
+                }
 
             }
 
-        }
-        
-        for (int i = 0; i < arrayMaximos.length; i++) {
-            System.out.println(arrayMaximos[i]);
-        }
-        return arrayMaximos;
-        
-        }else if(lista.length>1){
+            for (int i = 0; i < arrayMaximos.length; i++) {
+                System.out.println(arrayMaximos[i]);
+            }
+            return arrayMaximos;
+
+        } else if (lista.length > 1) {
             int[] arrayMaximos = {lista[0]};
             return arrayMaximos;
         }
-        
+
         int[] arrayMaximos = {};
         return arrayMaximos;
-        
+
     }
 
     //Devuelve true si el string es un palíndromo
@@ -65,44 +65,42 @@ public class EjerciciosNivel1 {
         }
         return false;
     }
-    
-    
+
     //Quita los espacios de un String
-    private String quita(String str){
+    private String quita(String str) {
         String noEspacios = "";
         for (int i = 0; i < str.length(); i++) {//guardamos str sin espacios
             if (str.charAt(i) != ' ') {
                 noEspacios += str.charAt(i);
             }
         }
-        
+
         return noEspacios;
     }
 
-    
-    
     //Devuelve true si el string es un palíndromo
     public boolean palindromo2(String str) {
-        
-        str = str.toUpperCase();
-        
-        str = quita(str);
-        
-        int izq = 0;
-        int der = str.length()-1;
 
-        while(izq<=der && str.charAt(der)==str.charAt(izq)){
+        str = str.toUpperCase();
+
+        str = quita(str);
+
+        int izq = 0;
+        int der = str.length() - 1;
+
+        while (izq <= der && str.charAt(der) == str.charAt(izq)) {
             izq++;
             der--;
         }
-        System.out.println(izq+" "+der);
-        
-        if(izq>der){
+        System.out.println(izq + " " + der);
+
+        if (izq > der) {
             return true;
         }
         return false;
-        
+
     }
+
     //Devuelve true si el string es un isograma
     //Consideramos que no puede haber espacios
     public boolean isograma(String str) {
@@ -116,9 +114,6 @@ public class EjerciciosNivel1 {
         }
         return true;
     }
-    
-    
-    
 
     //Imprimir un mes de 31 día, el metodo recibe el día por el que empieza el mes
     public void imprimirMes(int comienzo) {
@@ -194,6 +189,8 @@ public class EjerciciosNivel1 {
 
     //Recibe dos String	y devuelve true	si uno es anagrama del otro.
     //Suponemos que no hay tilde
+    //Este metodo falla en casos como "holaaaaa" y "holahola" ya que
+    //devuelve true cuando no debería hacerlo
     public boolean anagrama(String str1, String str2) {
 
         //Lo ponemos en mayúculas para que no nos dé fallo si hay mayusculas y minículas
@@ -205,13 +202,13 @@ public class EjerciciosNivel1 {
         if (str1.equals(str2)) {//Si son la misma palabra no es una anagrama
             return false;
         }
-        
+
         str1 = quita(str1);
         str2 = quita(str2);
 
         if (str1.length() == str2.length()) {//Si no miden lo mismo no es un anagrama
             for (int i = 0; i < str1.length(); i++) {
-                
+
                 //Comprobamos que los caractere de str1 estén en str2
                 for (int j = 0; j < str1.length(); j++) {
                     if (str1.charAt(i) == str2.charAt(j)) {
@@ -242,7 +239,60 @@ public class EjerciciosNivel1 {
         return false;
     }
 
+
+    //Este método ha sido copiado y modificado de: 
+    //https://www.geeksforgeeks.org/check-whether-two-strings-are-anagram-of-each-other/
+    private boolean anagrama3(String strA, String strB) {
+        //Lo ponemos en mayúculas para que no nos dé fallo si hay mayusculas y minículas
+        strA = strA.toUpperCase();
+        strB = strB.toUpperCase();
+        
+        //Quitamos los epacios de los Strings
+        strA = quita(strA);
+        strB = quita(strB);
+        
+        //Si son la misma palabra no son anagrama
+        if(strA.equals(strB)){
+            return false;
+        }
+        
+        //Convierto los Strings en array de chars
+        char str1 [];
+        str1 = stringToArray(strA);
+        char str2 [];
+        str2 = stringToArray(strB);
+        
+
+        // If length of both strings is not same, 
+        // then they cannot be anagram 
+        if (str1.length != str2.length) {
+            return false;
+        }
+
+        // Sort both strings 
+        Arrays.sort(str1);
+        Arrays.sort(str2);
+
+        // Compare sorted strings 
+        for (int i = 0; i < str1.length; i++) {
+            if (str1[i] != str2[i]) {
+                return false;
+            }
+        }
+
+        return true;
+    }
     
+    public char[] stringToArray(String str1){
+        char a [];
+        a = new char[str1.length()];
+        for (int i = 0; i < str1.length(); i++) {
+            a[i]=str1.charAt(i);
+        }
+        return a;
+            
+    }
+
     //Recibe un String y tiene que devolver otro string con un acronimo formado por la primer letra de esas palabras.
     //Debe ignorar "Las", "la", "de", "y", "e"
     public void acronimo(String str) {
@@ -270,7 +320,7 @@ public class EjerciciosNivel1 {
         String aux3 = "";//En este string guardaremos los cuatro siguientes caracteres despues de un espacio
 
         String acronimo = "";
-        
+
         for (int i = 0; i < str.length(); i++) {//Recorre el string
 
             ultima = false;
@@ -355,15 +405,10 @@ public class EjerciciosNivel1 {
         EjerciciosNivel1 ejercicios = new EjerciciosNivel1();
 
         //ejercicios.acronimo("Tecnología ga la Inf y de las Comgg ye");
-        
-        System.out.println(ejercicios.anagrama("aeiou ouiie","aiouoiaeue"));
-        
+        System.out.println(ejercicios.anagrama3("oHla que tal", "hola  que tal"));
 
         //System.out.println(ejercicios.anagrama("eyopa", "pae oy"));
-        
         //ejercicios.maximos(ejercicios.listaNumeros);
-        
-
     }
 
 }
